@@ -61,6 +61,25 @@ docker tag <your-image-name>:<tag> <your-aws-account-id>.dkr.ecr.<your-region>.a
 ```
 aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com
 ```
+aws ecr get-login-password --region <your-region>:
+This part of the command calls the AWS Command Line Interface (CLI) to retrieve an authentication token from Amazon ECR. It requires you to have the AWS CLI installed and configured with valid AWS credentials (Access Key ID and Secret Access Key) that have permissions to interact with the ECR registry in the specified region. The command returns an authentication token that is valid for a short period.
+
+docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com:
+This part of the command uses the authentication token obtained from the previous step to log in to the ECR registry. The docker login command is a standard Docker command used to authenticate with container registries. The --username AWS flag tells Docker to use AWS credentials for authentication. The --password-stdin flag instructs Docker to read the authentication token from the standard input.
+
+<your-aws-account-id>: Replace this placeholder with your AWS account ID.
+<your-region>: Replace this placeholder with the AWS region where your ECR registry is located.
+
+After running this entire command, your Docker client is authenticated to interact with the specified ECR registry. You can now use Docker commands to push container images to the registry or pull images from it, depending on your access permissions. For example:
+
+To push an image to ECR:
+
+docker tag your-local-image <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/your-repo-name:tag
+docker push <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/your-repo-name:ta
+
+To pull an image from ECR:
+docker pull <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/your-repo-name:tag
+Please make sure you have the necessary permissions to push and pull images to/from the ECR repository. These permissions are managed through AWS Identity and Access Management (IAM) policies.
 
 4. Push the Docker image to ECR:
 
